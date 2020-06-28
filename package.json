@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/Isaac-Tong/psych-web#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.3",
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
   }

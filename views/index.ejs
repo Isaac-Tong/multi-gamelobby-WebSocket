@@ -1,0 +1,54 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Psych Clone</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/styles.css">
+
+</head>
+
+<body>
+  <div>
+    <center><button id="createRoom" class="btn btn-dark">Create a dddRoom</button></center>
+    <h1>RoomID: <%=roomID%></h1>
+  </div>
+  <script>
+
+
+
+    //Make connection to server
+const socket = io.connect('http://localhost:3000');
+
+//Query DOM
+var button = document.getElementById('createRoom')
+
+
+//Emit events
+button.addEventListener('click', ()=>{
+    //Generate room ID
+    let random = Math.random().toString(36).slice(2);
+    socket.emit('createRoom', {
+      roomID: random
+    });
+})
+
+//Listen for events
+socket.on('message', (data)=> {
+    output.innerHTML += "data"
+})
+
+
+
+
+
+  </script>
+</body>
+</html>
