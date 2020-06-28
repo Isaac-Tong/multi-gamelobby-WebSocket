@@ -6,169 +6,144 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Psych!</title>
     <style>
-        :root {
-  --input-padding-x: 1.5rem;
-  --input-padding-y: .75rem;
-}
+        @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-h1{
-    font-weight: 400;
-    f
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
 }
-
-body {
-  background: #007bff;
-  background: linear-gradient(to right, #0062E6, #33AEFF);
-}
-
-.card-signin {
-  border: 0;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
-}
-
-.card-signin .card-title {
-  margin-bottom: 2rem;
-  font-weight: 300;
-  font-size: 1.5rem;
-}
-
-.card-signin .card-body {
-  padding: 2rem;
-}
-
-.form-signin {
-  width: 100%;
-}
-
-.form-signin .btn {
-  font-size: 80%;
-  border-radius: 5rem;
-  letter-spacing: .1rem;
-  font-weight: bold;
-  padding: 1rem;
-  transition: all 0.2s;
-}
-
-.form-label-group {
+.form {
   position: relative;
-  margin-bottom: 1rem;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-
-.form-label-group input {
-  height: auto;
-  border-radius: 2rem;
-}
-
-.form-label-group>input,
-.form-label-group>label {
-  padding: var(--input-padding-y) var(--input-padding-x);
-}
-
-.form-label-group>label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
   width: 100%;
-  margin-bottom: 0;
-  /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  transition: all .1s ease-in-out;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
-
-.form-label-group input::-webkit-input-placeholder {
-  color: transparent;
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
 }
-
-.form-label-group input:-ms-input-placeholder {
-  color: transparent;
+.form button:hover,.form button:active,.form button:focus {
+  background: #43A047;
 }
-
-.form-label-group input::-ms-input-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::-moz-placeholder {
-  color: transparent;
-}
-
-.form-label-group input::placeholder {
-  color: transparent;
-}
-
-.form-label-group input:not(:placeholder-shown) {
-  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-  padding-bottom: calc(var(--input-padding-y) / 3);
-}
-
-.form-label-group input:not(:placeholder-shown)~label {
-  padding-top: calc(var(--input-padding-y) / 3);
-  padding-bottom: calc(var(--input-padding-y) / 3);
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
   font-size: 12px;
-  color: #777;
 }
-
-.btn-google {
-  color: white;
-  background-color: #ea4335;
+.form .message a {
+  color: #4CAF50;
+  text-decoration: none;
 }
-
-.btn-facebook {
-  color: white;
-  background-color: #3b5998;
+.form .register-form {
+  display: none;
 }
-
-/* Fallback for Edge
--------------------------------------------------- */
-
-@supports (-ms-ime-align: auto) {
-  .form-label-group>label {
-    display: none;
-  }
-  .form-label-group input::-ms-input-placeholder {
-    color: #777;
-  }
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+  margin: 0 auto;
 }
-
-/* Fallback for IE
--------------------------------------------------- */
-
-@media all and (-ms-high-contrast: none),
-(-ms-high-contrast: active) {
-  .form-label-group>label {
-    display: none;
-  }
-  .form-label-group input:-ms-input-placeholder {
-    color: #777;
-  }
+.container:before, .container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #EF3B3A;
+}
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+  background: -moz-linear-gradient(right, #76b852, #8DC26F);
+  background: -o-linear-gradient(right, #76b852, #8DC26F);
+  background: linear-gradient(to left, #76b852, #8DC26F);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;      
 }
 
     </style>
 
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-              <div class="card-body">
-                <center><h1>Psych!</h1></center>
-                <form class="form-signin" action="/game" method="POST">
-                  <div class="form-label-group">
-                    <input type="name" id="email" name="name" class="form-control" placeholder="Enter your name" required autofocus>
-                    <label for="inputEmail">Enter your name</label>
-                  </div>
-                  <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Submit">Start new game!</button>
-                </form>
-              </div>
-            </div>
-          </div>
+    <div class="login-page">
+
+        
+        <div class="form">
+          <form class="register-form">
+            <input type="text" placeholder="name"/>
+            <input type="password" placeholder="password"/>
+            <input type="text" placeholder="email address"/>
+            <button>create</button>
+            <p class="message">Already registered? <a href="#">Sign In</a></p>
+          </form>
+          
+          
+          <h1>Psych!</h1>
+          <br>
+          <p1>Enter a name to create a game</p1>
+
+          <form class="login-form" action="/game" method="POST">
+            <input type="text" placeholder="name"/>
+            <button>Create Game</button>
+          </form>
+
+          <br>
+          <p1>Enter roomID to join a game</p1>
+          <form class="login-form" action="/join" method="POST">
+            <form class="login-form" >
+            <input type="text" name="gameID" placeholder="gameID"/>
+            <button>Join a Game</button>
+          </form>
+
+
+
         </div>
       </div>
 </body>
 </html>
-
