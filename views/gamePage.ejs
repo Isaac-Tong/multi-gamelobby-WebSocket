@@ -20,30 +20,39 @@
     <center><button id="createRoom" class="btn btn-dark">Create a dddRoom</button></center>
     <h1>RoomID: <%=roomID%></h1>
   </div>
+
+
+
+
+
+
   <script>
 
 
 
-    //Make connection to server
-const socket = io.connect('http://localhost:3000');
+            //Make connection to server
+            const socket = io.connect('http://localhost:3000');
 
-//Query DOM
-var button = document.getElementById('createRoom')
+            
+
+            //Query DOM
+            var button = document.getElementById('createRoom')
 
 
-//Emit events
-button.addEventListener('click', ()=>{
-    //Generate room ID
-    let random = Math.random().toString(36).slice(2);
-    socket.emit('createRoom', {
-      roomID: random
-    });
-})
+            //Emit events
+            button.addEventListener('click', ()=>{
+                //Generate room ID
+                let random = Math.random().toString(36).slice(2);
+                socket.emit('createRoom', {
+                  roomID: random
+                });
+            })
 
-//Listen for events
-socket.on('message', (data)=> {
-    output.innerHTML += "data"
-})
+            //Listen for events
+            socket.on('message', (data)=> {
+                output.innerHTML += "data"
+            })
+
 
 
 
