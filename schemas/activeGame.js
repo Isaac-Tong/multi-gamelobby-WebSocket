@@ -5,7 +5,17 @@ let activeGameSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    userList: [String],
+    sockets: [String],
+    userList: [
+        {
+            username: {
+                type: String
+            },
+            socketID: {
+                type: String,
+            }
+        }
+    ],
 });
 
 module.exports = mongoose.model("activeGame", activeGameSchema);

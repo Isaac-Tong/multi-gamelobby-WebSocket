@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
     //Redirect to their current game if browser already has a token installed
     if(req.cookies.token){
-        res.redirect('/game');
+        return res.redirect('/game');
     }
 
     //Display the homepage if there is no token

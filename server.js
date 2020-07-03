@@ -57,24 +57,40 @@ io.on('connection', (socket)=>{
         //Check if roomID is stored in activeGame database
         const query = await activeGameModel.findOne({roomID: data.roomID});
 
-        //Add user to the roomID document if there is already an active document
+        //Add user and socketID to the roomID document if there is already an active document
         if(query){
-            return await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: data.username}});
+            return await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: {username: data.username, socketID: socket.id}}, "$push": {sockets: socket.id}}  );
         }
 
         //Create a new active document if none has been created yet
         const roomData = {
             roomID: data.roomID,
             userList: []
+            
         }
-        roomData.userList.push(data.username);
+        roomData.userList.push({username: data.username, socketID: socket.id});
         const newGame = new activeGameModel(roomData);
         newGame.save();
         
     })
 
-    socket.on('disconnect', () => {
-        console.log(socket.id);
+    socket.on('disconnect', async () => {
+
+        socketID = socket.id;
+
+        //Find the document in which the socketID is in
+        const query = await activeGameModel.findOne({ sockets: { "$in": socketID} });
+
+
+        
+
+        //Filter through the query
+        const filtered = query.userList.find(x => x.socketID === 'CtbExysSsvjvG--vAAAD').username
+        
+
+        console.log(filtered);
+        
+
         
     })
 
