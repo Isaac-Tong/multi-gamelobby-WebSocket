@@ -15,8 +15,6 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-
-    <link rel="stylesheet" href="/styles.css" />
   </head>
   <style>
     h1 {
@@ -25,6 +23,9 @@
     }
     p {
       font-weight: bold;
+    }
+    .invisible{
+      visibility: hidden;
     }
 
     .white-container {
@@ -56,27 +57,23 @@
         <h1>RoomID | <%= roomID%></h1>
       </div>
     </div>
+    <p class='invisible'><%=roomID%></p>
+    <p class='invisible'><%=username%></p>
+
 
     <script>
+
+      const roomID = document.getElementsByClassName('invisible')[0].textContent
+      const username = document.getElementsByClassName('invisible')[1].textContent
+
       //Make connection to server
       const socket = io.connect("http://localhost:3000");
 
-      //Query DOM
-      var button = document.getElementById("createRoom");
 
-      //Emit events
-      button.addEventListener("click", () => {
-        //Generate room ID
-        let random = Math.random().toString(36).slice(2);
-        socket.emit("createRoom", {
-          roomID: random,
-        });
-      });
-
-      //Listen for events
-      socket.on("message", (data) => {
-        output.innerHTML += "data";
-      });
+      // //Listen for events
+      // socket.on("message", (data) => {
+      //   output.innerHTML += "data";
+      // });
     </script>
   </body>
 </html>

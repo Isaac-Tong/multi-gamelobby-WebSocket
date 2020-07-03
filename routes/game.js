@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     const roomID = cookieSplit[0];
     const name = cookieSplit[1];
 
-    res.render('gamePage', {roomID: roomID})
+    res.render('gamePage', {roomID: roomID, username: name})
 })
 
 module.exports = router;
