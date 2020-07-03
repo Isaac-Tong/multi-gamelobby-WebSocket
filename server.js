@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const app = express();
 const cookieParser = require('cookie-parser');
 const activeGameModel = require('./schemas/activeGame')
+const socketModel = require('./schemas/socket')
 
 
 //EXPRESS
@@ -44,51 +45,71 @@ const server = app.listen(3000, () => {
 const io = socket(server);
 
 io.on('connection', (socket)=>{
+    
+    
 
     //Check if connection has been established
     console.log('Current socket connection:', socket.id)
 
     //Connect to a room
     socket.on('Join_Game', async (data) => {
-    
+        
+        
         //Subscribe to the room defined by data.roomID
         socket.join(data.roomID);
 
         //Check if roomID is stored in activeGame database
         const query = await activeGameModel.findOne({roomID: data.roomID});
 
+        //Append username and socketID
+        const socketUsername = data.username + '.' + socket.id;
+
         //Add user and socketID to the roomID document if there is already an active document
         if(query){
-            return await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: {username: data.username, socketID: socket.id}}, "$push": {sockets: socket.id}}  );
+            await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { '$push' : {username: socketUsername}}, {useFindAndModify: false});
+            
+            const newSocket = new socketModel({
+                socket: socket.id,
+                username: data.username,
+                roomID: data.roomID
+            });
+
+            await newSocket.save();
+            return;
         }
+        
 
         //Create a new active document if none has been created yet
         const roomData = {
             roomID: data.roomID,
-            userList: []
-            
+            username: []
         }
-        roomData.userList.push({username: data.username, socketID: socket.id});
+        
+        roomData.username.push(socketUsername);
         const newGame = new activeGameModel(roomData);
         newGame.save();
+
+        const newSocket = new socketModel({
+            socket: socket.id,
+            username: data.username,
+            roomID: data.roomID
         
+        });
+
+        await newSocket.save();
     })
 
     socket.on('disconnect', async () => {
-
-        socketID = socket.id;
-
-        //Find the document in which the socketID is in
-        const query = await activeGameModel.findOne({ sockets: { "$in": socketID} });
-
-
+        //Find which roomID and username the socket is referring to
+        const removedSocket = await socketModel.findOneAndRemove({socket: socket.id}, {useFindAndModify: false});
+        
+        //Delete the corresponding socket from the activeGames database
+        const appendedSocketUsername = removedSocket.username +  '.' + removedSocket.socket;
+        await activeGameModel.update({roomID: removedSocket.roomID}, { "$pull": {username : appendedSocketUsername} })
+        
         
 
-        //Filter through the query
-        const filtered = query.userList.find(x => x.socketID === 'CtbExysSsvjvG--vAAAD').username
-        
 
-        console.log(filtered);
         
 
         
