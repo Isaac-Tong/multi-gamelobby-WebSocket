@@ -8,6 +8,14 @@
     <style>
         @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
+h1{
+  font-weight: bold;
+  color:#D68C45;
+}
+p{
+  font-weight: bold;
+}
+
 .login-page {
   width: 360px;
   padding: 8% 0 0;
@@ -38,7 +46,7 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: #4C956C;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -49,7 +57,7 @@
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+  background: #4C956C;
 }
 .form .message {
   margin: 15px 0 0;
@@ -57,7 +65,7 @@
   font-size: 12px;
 }
 .form .message a {
-  color: #4CAF50;
+  color: #2C6E49;
   text-decoration: none;
 }
 .form .register-form {
@@ -97,11 +105,11 @@
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
+  background: #2C6E49; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #4C956C, #8DC26F);
+  background: -moz-linear-gradient(right, #4C956C, #8DC26F);
+  background: -o-linear-gradient(right, #4C956C, #8DC26F);
+  background: linear-gradient(to left, #4C956C, #8DC26F);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
@@ -126,18 +134,18 @@ body {
           
           <h1>Psych!</h1>
           <br>
-          <p1>Enter a name to create a game</p1>
-
-          <form class="login-form" action="/game" method="POST">
-            <input type="text" placeholder="name"/>
+          <p>Enter a name to create a game</p>
+          <form class="login-form" action="/create" method="POST">
+            <input type="text" name="name" placeholder="Name"/>
             <button>Create Game</button>
           </form>
-
           <br>
-          <p1>Enter roomID to join a game</p1>
+          <p>Enter roomID + name to join a game</p>
           <form class="login-form" action="/join" method="POST">
             <form class="login-form" >
-            <input type="text" name="gameID" placeholder="gameID"/>
+            <input type="text" name="name" placeholder="Name"/>
+            <br>
+            <input type="text" name="roomID" placeholder="roomID"/>
             <button>Join a Game</button>
           </form>
 
