@@ -3,6 +3,7 @@ const socket = require('socket.io')
 const bodyParser = require('body-parser')
 const app = express();
 const cookieParser = require('cookie-parser');
+const activeGameModel = require('./schemas/activeGame')
 
 
 //EXPRESS
@@ -16,7 +17,8 @@ app.set('view engine', 'ejs');
 const homepageRouter= require('./routes/homePage');
 const gameRouter = require('./routes/game')
 const nonExistRouter = require('./routes/non_existant_game')
-const allErrorRouter = require('./routes/allError')
+const allErrorRouter = require('./routes/allError');
+const activeGame = require('./schemas/activeGame');
 
 app.use('/', homepageRouter);
 app.use('/game', gameRouter);
@@ -42,14 +44,40 @@ const server = app.listen(3000, () => {
 const io = socket(server);
 
 io.on('connection', (socket)=>{
-    socket.emit('chat-message', 'hii')
 
     //Check if connection has been established
     console.log('Current socket connection:', socket.id)
 
-    socket.join('room1');
+    //Connect to a room
+    socket.on('Join_Game', async (data) => {
+    
+        //Subscribe to the room defined by data.roomID
+        socket.join(data.roomID);
 
-    io.to('room1').emit('helloworld')
+        //Check if roomID is stored in activeGame database
+        const query = await activeGameModel.findOne({roomID: data.roomID});
+
+        //Add user to the roomID document if there is already an active document
+        if(query){
+            await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: data.username}});
+        }
+
+        //Create a new active document if none has been created yet
+        const roomData = {
+            roomID: data.roomID,
+            userList: []
+        }
+        roomData.userList.push(data.username);
+        const newGame = new activeGameModel(roomData);
+        newGame.save();
+        io.to(data.roomID).emit('Update_User', data.username)
+    })
+
+    
+
+    // socket.join('room1');
+
+    // io.to('room1').emit('helloworld')
 
     // socket.on('createRoom', (data) => {
     //     console.log(data);

@@ -63,15 +63,25 @@
 
     <script>
 
+      //Get client's roomID and username
       const roomID = document.getElementsByClassName('invisible')[0].textContent
       const username = document.getElementsByClassName('invisible')[1].textContent
+      const clientObject = {
+        roomID: roomID,
+        username: username,
+      };
 
       //Make connection to server
       const socket = io.connect("http://localhost:3000");
+
+      //Join room
+      socket.emit('Join_Game', clientObject);
       
-      socket.on('chat-message', (data) => {
+      socket.on('Update_User', (data) => {
         console.log(data);
       })
+
+
 
 
       // //Listen for events
