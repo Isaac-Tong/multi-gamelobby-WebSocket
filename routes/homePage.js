@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path');
+require('dotenv').config()
+require('../mongoose_connection')
+
 
 //GET REQUEST TO DISPLAY THE HOMEPAGE
 router.get('/', (req, res) => {
@@ -29,6 +32,7 @@ router.post('/create', (req, res)=>{
     let random = Math.random().toString(36).slice(8);
 
     //Create new entry in databse
+
 
     //Assign roomID and username to cookie
     let cookie = random + '.' + req.body.name;
