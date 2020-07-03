@@ -62,6 +62,9 @@
 
 
     <script>
+      window.onbeforeunload = function(){
+        return 'Are you sure you want to leave?';
+      };
 
       //Get client's roomID and username
       const roomID = document.getElementsByClassName('invisible')[0].textContent
