@@ -29,7 +29,7 @@
     }
 
     .white-container {
-      width: 360px;
+      width: 350px;
       padding: 8% 0 0;
       margin: auto;
     }
@@ -37,7 +37,7 @@
       position: relative;
       z-index: 1;
       background: #ffffff;
-      max-width: 400px;
+      max-width: 350px;
       margin: 0 auto 100px;
       padding: 20px;
       text-align: center;
@@ -45,16 +45,32 @@
     }
     body {
       background: #d68c45; /* fallback for old browsers */
-      font-family: "Roboto", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background: -webkit-linear-gradient(right, #e0a46b, #d68c45);
+  background: -moz-linear-gradient(right, #e0a46b, #d68c45);
+  background: -o-linear-gradient(right, #e0a46b, #d68c45);
+  background: linear-gradient(to left, #e0a46b, #d68c45);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;    
+    }
+    .playerCard{
+      background-color: #124559;
+    }
+    .playerText{
+      color: #ffffff;
+      font-weight: 300;
+      padding: 5px;
     }
   </style>
 
   <body>
     <div class="white-container">
-      <div class="form">
+      <div class="form" id = 'startPosition'>
         <h1>RoomID | <%= roomID%></h1>
+        <hr>
+        <div>
+          <div class="playerCard"><p class="playerText">Isaac</p></div>
+        </div>
       </div>
     </div>
     <p class='invisible'><%=roomID%></p>
@@ -74,10 +90,10 @@
         username: username,
       };
 
-      //Make connection to server
+      // Make connection to server
       const socket = io.connect("http://localhost:3000");
 
-      //Join room
+      // Join room
       socket.emit('Join_Game', clientObject);
       
       socket.on('Update_User', (data) => {
