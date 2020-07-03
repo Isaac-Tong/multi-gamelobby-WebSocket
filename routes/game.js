@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 
     //Redirect to Home Page if browser does not have cookie
     if(!req.cookies.token){
-        res.redirect('/')
+        return res.redirect('/')
     }
 
     //Decode the cookie
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     const roomID = cookieSplit[0];
     const name = cookieSplit[1];
 
-    return res.render('gamePage', {roomID: roomID, name: name})
+    res.render('gamePage', {roomID: roomID})
 })
 
 module.exports = router;

@@ -1,63 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
 
-  <title>Psych Clone</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+    <title>Psych Clone</title>
+    <meta name="description" content="The HTML5 Herald" />
+    <meta name="author" content="SitePoint" />
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
 
-  <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <style>
+    h1 {
+      font-weight: bold;
+      color: #000000;
+    }
+    p {
+      font-weight: bold;
+    }
 
-</head>
+    .white-container {
+      width: 360px;
+      padding: 8% 0 0;
+      margin: auto;
+    }
+    .form {
+      position: relative;
+      z-index: 1;
+      background: #ffffff;
+      max-width: 400px;
+      margin: 0 auto 100px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+    body {
+      background: #d68c45; /* fallback for old browsers */
+      font-family: "Roboto", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
 
-<body>
-  <div>
-    <center><button id="createRoom" class="btn btn-dark">Create a dddRoom</button></center>
-    <h1>RoomID: <%=roomID%></h1>
-  </div>
+  <body>
+    <div class="white-container">
+      <div class="form">
+        <h1>RoomID | <%= roomID%></h1>
+      </div>
+    </div>
 
+    <script>
+      //Make connection to server
+      const socket = io.connect("http://localhost:3000");
 
+      //Query DOM
+      var button = document.getElementById("createRoom");
 
+      //Emit events
+      button.addEventListener("click", () => {
+        //Generate room ID
+        let random = Math.random().toString(36).slice(2);
+        socket.emit("createRoom", {
+          roomID: random,
+        });
+      });
 
-
-
-  <script>
-
-
-
-            //Make connection to server
-            const socket = io.connect('http://localhost:3000');
-
-            
-
-            //Query DOM
-            var button = document.getElementById('createRoom')
-
-
-            //Emit events
-            button.addEventListener('click', ()=>{
-                //Generate room ID
-                let random = Math.random().toString(36).slice(2);
-                socket.emit('createRoom', {
-                  roomID: random
-                });
-            })
-
-            //Listen for events
-            socket.on('message', (data)=> {
-                output.innerHTML += "data"
-            })
-
-
-
-
-
-
-  </script>
-</body>
+      //Listen for events
+      socket.on("message", (data) => {
+        output.innerHTML += "data";
+      });
+    </script>
+  </body>
 </html>

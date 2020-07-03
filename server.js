@@ -5,6 +5,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 
 
+//EXPRESS
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 
@@ -15,11 +16,20 @@ app.set('view engine', 'ejs');
 const homepageRouter= require('./routes/homePage');
 const gameRouter = require('./routes/game')
 const nonExistRouter = require('./routes/non_existant_game')
-
+const allErrorRouter = require('./routes/allError')
 
 app.use('/', homepageRouter);
 app.use('/game', gameRouter);
 app.use('/error', nonExistRouter);
+app.use('/allError', allErrorRouter);
+
+
+
+
+
+
+
+
 
 
 
