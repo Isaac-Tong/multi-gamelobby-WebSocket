@@ -42,13 +42,18 @@ const server = app.listen(3000, () => {
 const io = socket(server);
 
 io.on('connection', (socket)=>{
+    socket.emit('chat-message', 'hii')
 
     //Check if connection has been established
     console.log('Current socket connection:', socket.id)
 
-    socket.on('createRoom', (data) => {
-        console.log(data);
-    })
+    socket.join('room1');
+
+    io.to('room1').emit('helloworld')
+
+    // socket.on('createRoom', (data) => {
+    //     console.log(data);
+    // })
 
     // socket.broadcast.emit()
 
@@ -57,4 +62,6 @@ io.on('connection', (socket)=>{
     //     io.sockets.emit('message', data);
         
     // })
+
+
 })
