@@ -13,7 +13,13 @@ app.set('view engine', 'ejs');
 
 //Routing
 const homepageRouter= require('./routes/homePage');
+const gameRouter = require('./routes/game')
+const nonExistRouter = require('./routes/non_existant_game')
+
+
 app.use('/', homepageRouter);
+app.use('/game', gameRouter);
+app.use('/error', nonExistRouter);
 
 
 
