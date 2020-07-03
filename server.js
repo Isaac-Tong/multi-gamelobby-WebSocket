@@ -59,7 +59,7 @@ io.on('connection', (socket)=>{
 
         //Add user to the roomID document if there is already an active document
         if(query){
-            await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: data.username}});
+            return await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { "$push": {userList: data.username}});
         }
 
         //Create a new active document if none has been created yet
@@ -70,7 +70,12 @@ io.on('connection', (socket)=>{
         roomData.userList.push(data.username);
         const newGame = new activeGameModel(roomData);
         newGame.save();
-        io.to(data.roomID).emit('Update_User', data.username)
+        
+    })
+
+    socket.on('disconnect', () => {
+        console.log(socket.id);
+        
     })
 
     
