@@ -55,10 +55,9 @@ io.on('connection', (socket)=>{
 
     //Connect to a room
     socket.on('Join_Game', async (data) => {
-        
-        
-       
-        
+
+
+
         //Check if roomID is stored in activeGame database
         const query = await activeGameModel.findOne({roomID: data.roomID});
         //Append username and socketID
@@ -165,14 +164,17 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('Start_Game', async (data) => {
-
+        
+        //Mark roomLobbies collection startedGame to true
+        await activeGameModel.findOneAndUpdate({roomID: data}, {startedGame: true}); 
 
         //Get array of usernames in the lobby from the database
         const lobby = await activeGameModel.findOne({roomID: data}, 'username -_id');
+
         //Create new currentGame collection
         const current = {
             roomID: data,
-            username: lobby.username,
+            username: lobby.username.length,
             rounds: 0,
         }
 
@@ -189,24 +191,22 @@ io.on('connection', (socket)=>{
         
         io.to(data).emit('firstRound', questionParts)
     })
+    socket.on('submitAnswer', async (data)=> {
 
+        //Clear all the answers
+
+
+        await currentGameModel.update({roomID: data.roomID}, { $push: { answers: {username: data.username, answer: data.answer} } })
+        await currentGameModel.update({roomID: data.roomID}, { $push: {completed: data.username}})
+
+        const current = await currentGameModel.findOne({roomID: data.roomID});
+
+        io.to(socket.id).emit('submitComplete', current.completed);
     
 
-    // socket.join('room1');
 
-    // io.to('room1').emit('helloworld')
+    })
 
-    // socket.on('createRoom', (data) => {
-    //     console.log(data);
-    // })
-
-    // socket.broadcast.emit()
-
-    // socket.on('message', (data) => {
-    //     console.log(data);
-    //     io.sockets.emit('message', data);
-        
-    // })
 
 
 })

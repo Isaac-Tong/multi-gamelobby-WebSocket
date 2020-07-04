@@ -6,6 +6,10 @@ let activeGameSchema = new mongoose.Schema({
         required: true,
     },
     username: [String],
+    startedGame: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 module.exports = mongoose.model("roomlobbies", activeGameSchema);

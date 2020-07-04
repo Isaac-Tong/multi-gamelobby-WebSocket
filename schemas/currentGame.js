@@ -9,7 +9,20 @@ let currentGameSchema = new mongoose.Schema({
     rounds: {
         type: Number,
         default: 0,
-    }
+    },
+    answers: [
+        {
+            username: {type: String},
+            answer: {type: String}
+        }
+    ],
+    scores: [
+        {
+            username: {type: String},
+            score: {type: Number}
+        }
+    ],
+    completed: [String],
 });
 
 module.exports = mongoose.model("currentGames", currentGameSchema);

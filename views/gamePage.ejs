@@ -85,9 +85,6 @@
         <p class="invisible"><%=username%></p>
 
         <script>
-            window.onbeforeunload = function () {
-                return "Are you sure you want to leave?";
-            };
 
             //Get client's roomID and username
             const roomID = document.getElementsByClassName("invisible")[0]
@@ -159,10 +156,38 @@
             //Without jQuery
             document.body.addEventListener("click", function (event) {
                 if (event.srcElement.id == "submit-btn") {
-                    console.log('hi');
-                    
+                    let answer = document.getElementById("input").value
+
+                    const answerObject = {
+                        roomID: roomID,
+                        username: username,
+                        answer: answer,
+                    }
+
+                    socket.emit("submitAnswer", answerObject);
                 }
             });
+
+            socket.on('submitComplete', (data) => {
+
+                //Show a list of players that still needs to submit their answers
+                console.log(data);
+
+                const container = document.getElementById("container");
+                container.innerHTML = "";
+
+                const connectionNumber = data.length;
+
+                const cards = document.createElement("div");
+                let cardString = "";
+
+                for (let i = 0; i < connectionNumber; i++) {
+                    cardString = cardString + createCard(data[i]);
+                }
+                container.innerHTML = cardString;
+            
+                
+            })
         </script>
     </body>
 </html>
