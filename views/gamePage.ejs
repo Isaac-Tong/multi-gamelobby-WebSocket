@@ -79,6 +79,8 @@
                         Start Game
                     </button>
                 </div>
+                <br>
+                <p>Status:</p>
             </div>
         </div>
         <p class="invisible"><%=roomID%></p>
@@ -136,6 +138,8 @@
                 });
 
             socket.on("firstRound", (data) => {
+
+                
                 //Delete the innerHTML of form
                 const container = document.getElementById("container");
                 container.innerHTML = "";
@@ -149,7 +153,8 @@
                     data.part2 +
                     "</h3>" +
                     "<hr />" +
-                    '<div class="form-group"><textarea class="form-control" id="input" rows="6"></textarea><br><button type="button" class="btn btn-primary" id="submit-btn">Submit</button></div>';
+                    '<div class="form-group"><textarea class="form-control" id="input" rows="6"></textarea><br><button type="button" class="btn btn-primary" id="submit-btn">Submit</button></div>' + 
+                    'each player';
                 console.log(data);
             });
 
@@ -185,8 +190,7 @@
                     cardString = cardString + createCard(data[i]);
                 }
                 container.innerHTML = cardString;
-            
-                
+    
             })
         </script>
     </body>

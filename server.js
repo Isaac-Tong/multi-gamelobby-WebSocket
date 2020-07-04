@@ -187,6 +187,7 @@ io.on('connection', (socket)=>{
         const questionParts = {
             part1: firstQuestion.part1,
             part2: firstQuestion.part2,
+            users: lobby.username,
         }
         
         io.to(data).emit('firstRound', questionParts)
