@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const activeGameModel = require('./schemas/activeGame')
 const socketModel = require('./schemas/socket')
 const currentGameModel = require('./schemas/currentGame')
+const questionModel = require('./schemas/questionSchema')
 
 
 //EXPRESS
@@ -174,14 +175,19 @@ io.on('connection', (socket)=>{
             username: lobby.username,
             rounds: 0,
         }
+
         const newCurrent = new currentGameModel(current);
         newCurrent.save();
 
-        io.to(data).emit('firstRound', 'hi')
+        //Get index 0 or first question in the question collection
+        const firstQuestion = await questionModel.findOne({index: 0});
 
+        const questionParts = {
+            part1: firstQuestion.part1,
+            part2: firstQuestion.part2,
+        }
         
-
-
+        io.to(data).emit('firstRound', questionParts)
     })
 
     
