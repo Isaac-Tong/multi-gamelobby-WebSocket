@@ -5,6 +5,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const activeGameModel = require('./schemas/activeGame')
 const socketModel = require('./schemas/socket')
+const currentGameModel = require('./schemas/currentGame')
 
 
 //EXPRESS
@@ -20,6 +21,7 @@ const gameRouter = require('./routes/game')
 const nonExistRouter = require('./routes/non_existant_game')
 const allErrorRouter = require('./routes/allError');
 const activeGame = require('./schemas/activeGame');
+const currentGame = require('./schemas/currentGame');
 
 app.use('/', homepageRouter);
 app.use('/game', gameRouter);
@@ -162,8 +164,22 @@ io.on('connection', (socket)=>{
     })
 
     socket.on('Start_Game', async (data) => {
-        console.log('start');
+
+        //Get array of usernames in the lobby from the database
+        const lobby = await activeGameModel.findOne({roomID: data}, 'username -_id');
+        //Create new currentGame collection
+        const current = {
+            roomID: data,
+            username: lobby.username,
+            rounds: 0,
+        }
+        const newCurrent = new currentGameModel(current);
+        newCurrent.save();
+
+
+        //SEND BACK DATA FOR THE FIRST QUESTION
         
+
     })
 
     

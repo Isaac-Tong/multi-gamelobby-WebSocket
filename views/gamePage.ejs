@@ -1,136 +1,144 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
 
-    <title>Psych Clone</title>
-    <meta name="description" content="The HTML5 Herald" />
-    <meta name="author" content="SitePoint" />
+        <title>Psych Clone</title>
+        <meta name="description" content="The HTML5 Herald" />
+        <meta name="author" content="SitePoint" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-  </head>
-  <style>
-    h1 {
-      font-weight: bold;
-      color: #000000;
-    }
-    p {
-      font-weight: bold;
-    }
-    .invisible {
-      visibility: hidden;
-    }
-
-    .white-container {
-      width: 350px;
-      padding: 8% 0 0;
-      margin: auto;
-    }
-    .form {
-      position: relative;
-      z-index: 1;
-      background: #ffffff;
-      max-width: 350px;
-      margin: 0 auto 100px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    }
-    body {
-      background: #d68c45; /* fallback for old browsers */
-      background: -webkit-linear-gradient(right, #e0a46b, #d68c45);
-      background: -moz-linear-gradient(right, #e0a46b, #d68c45);
-      background: -o-linear-gradient(right, #e0a46b, #d68c45);
-      background: linear-gradient(to left, #e0a46b, #d68c45);
-      font-family: "Roboto", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    .playerCard {
-      background-color: #124559;
-    }
-    .playerText {
-      color: #ffffff;
-      font-weight: 300;
-      padding: 5px;
-    }
-  </style>
-
-  <body>
-    <div class="white-container">
-      <div class="form">
-        <h1>RoomID | <%= roomID%></h1>
-        <hr />
-        <div id="startPosition">
-
-        </div>
-        <div id="startGame">
-          <button type="button" class="btn btn-success" id="startButton">Start Game</button>
-        </div>
-      </div>
-    </div>
-    <p class="invisible"><%=roomID%></p>
-    <p class="invisible"><%=username%></p>
-
-    <script>
-      window.onbeforeunload = function(){
-        return 'Are you sure you want to leave?';
-      };
-
-      //Get client's roomID and username
-      const roomID = document.getElementsByClassName('invisible')[0].textContent
-      const username = document.getElementsByClassName('invisible')[1].textContent
-      const clientObject = {
-        roomID: roomID,
-        username: username,
-      };
-
-      // Make connection to server
-      const socket = io.connect("http://localhost:3000");
-
-      // Join room
-      socket.emit('Join_Game', clientObject);
-
-      socket.on('Update_User', (data) => {
-        //First clear current DIV
-        const positionNode = document.getElementById('startPosition');
-        positionNode.innerHTML = '';
-
-        //Find how many users are connected
-        const connectionNumber = data.connected.length;
-        const cards = document.createElement('div');
-        let cardString = '';
-
-        for(let i = 0; i < connectionNumber; i++){
-          cardString = cardString + createCard(data.connected[i]);
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+    </head>
+    <style>
+        h1 {
+            font-weight: bold;
+            color: #000000;
         }
-        cards.innerHTML = cardString;
-        document.getElementById('startPosition').appendChild(cards)
-      })
+        p {
+            font-weight: bold;
+        }
+        .invisible {
+            visibility: hidden;
+        }
 
-      function createCard(name){
-        let oneDiv = '<div class="playerCard"><p class="playerText">' + name + '</p></div>'
-        return oneDiv;
-      }
+        .white-container {
+            width: 350px;
+            padding: 8% 0 0;
+            margin: auto;
+        }
+        .form {
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+            max-width: 350px;
+            margin: 0 auto 100px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2),
+                0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        }
+        body {
+            background: #d68c45; /* fallback for old browsers */
+            background: -webkit-linear-gradient(right, #e0a46b, #d68c45);
+            background: -moz-linear-gradient(right, #e0a46b, #d68c45);
+            background: -o-linear-gradient(right, #e0a46b, #d68c45);
+            background: linear-gradient(to left, #e0a46b, #d68c45);
+            font-family: "Roboto", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .playerCard {
+            background-color: #124559;
+        }
+        .playerText {
+            color: #ffffff;
+            font-weight: 300;
+            padding: 5px;
+        }
+    </style>
 
-      //Start game button
-      document.getElementById('startButton').addEventListener('click', () => {
-        socket.emit('Start_Game', 'Start');
-      })
+    <body>
+        <div class="white-container">
+            <div class="form">
+                <h1>RoomID | <%= roomID%></h1>
+                <hr />
+                <div id="startPosition"></div>
+                <div id="startGame">
+                    <button
+                        type="button"
+                        class="btn btn-success"
+                        id="startButton"
+                    >
+                        Start Game
+                    </button>
+                </div>
+            </div>
+        </div>
+        <p class="invisible"><%=roomID%></p>
+        <p class="invisible"><%=username%></p>
 
+        <script>
+            window.onbeforeunload = function () {
+                return "Are you sure you want to leave?";
+            };
 
-      
+            //Get client's roomID and username
+            const roomID = document.getElementsByClassName("invisible")[0]
+                .textContent;
+            const username = document.getElementsByClassName("invisible")[1]
+                .textContent;
+            const clientObject = {
+                roomID: roomID,
+                username: username,
+            };
 
+            // Make connection to server
+            const socket = io.connect("http://localhost:3000");
 
+            // Join room
+            socket.emit("Join_Game", clientObject);
 
+            socket.on("Update_User", (data) => {
+                //First clear current DIV
+                const positionNode = document.getElementById("startPosition");
+                positionNode.innerHTML = "";
 
-    </script>
-  </body>
+                //Find how many users are connected
+                const connectionNumber = data.connected.length;
+
+                const cards = document.createElement("div");
+                let cardString = "";
+
+                for (let i = 0; i < connectionNumber; i++) {
+                    cardString = cardString + createCard(data.connected[i]);
+                }
+                cards.innerHTML = cardString;
+                document.getElementById("startPosition").appendChild(cards);
+            });
+
+            function createCard(name) {
+                let oneDiv =
+                    '<div class="playerCard"><p class="playerText">' +
+                    name +
+                    "</p></div>";
+                return oneDiv;
+            }
+
+            //Start game button
+            document
+                .getElementById("startButton")
+                .addEventListener("click", () => {
+                    socket.emit("Start_Game", clientObject.roomID);
+                });
+
+            
+        </script>
+    </body>
 </html>
