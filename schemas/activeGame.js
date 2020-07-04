@@ -8,4 +8,4 @@ let activeGameSchema = new mongoose.Schema({
     username: [String],
 });
 
-module.exports = mongoose.model("activegames", activeGameSchema);
+module.exports = mongoose.model("roomlobbies", activeGameSchema);

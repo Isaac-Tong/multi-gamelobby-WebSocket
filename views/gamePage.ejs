@@ -72,7 +72,7 @@
 
         </div>
         <div id="startGame">
-          <button type="button" class="btn btn-success">Start Game</button>
+          <button type="button" class="btn btn-success" id="startButton">Start Game</button>
         </div>
       </div>
     </div>
@@ -119,6 +119,12 @@
         let oneDiv = '<div class="playerCard"><p class="playerText">' + name + '</p></div>'
         return oneDiv;
       }
+
+      //Start game button
+      document.getElementById('startButton').addEventListener('click', () => {
+        socket.emit('Start_Game', 'Start');
+      })
+
 
       
 

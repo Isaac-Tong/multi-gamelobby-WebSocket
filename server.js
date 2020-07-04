@@ -161,6 +161,11 @@ io.on('connection', (socket)=>{
 
     })
 
+    socket.on('Start_Game', async (data) => {
+        console.log('start');
+        
+    })
+
     
 
     // socket.join('room1');
