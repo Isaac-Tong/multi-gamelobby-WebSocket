@@ -20,13 +20,13 @@ const homepageRouter= require('./routes/homePage');
 const gameRouter = require('./routes/game')
 const nonExistRouter = require('./routes/non_existant_game')
 const allErrorRouter = require('./routes/allError');
-const activeGame = require('./schemas/activeGame');
-const currentGame = require('./schemas/currentGame');
+const addQuestionRouter = require('./routes/addQuestions')
 
 app.use('/', homepageRouter);
 app.use('/game', gameRouter);
 app.use('/error', nonExistRouter);
 app.use('/allError', allErrorRouter);
+app.use('/addQuestion', addQuestionRouter)
 
 
 
@@ -165,6 +165,7 @@ io.on('connection', (socket)=>{
 
     socket.on('Start_Game', async (data) => {
 
+
         //Get array of usernames in the lobby from the database
         const lobby = await activeGameModel.findOne({roomID: data}, 'username -_id');
         //Create new currentGame collection
@@ -176,9 +177,10 @@ io.on('connection', (socket)=>{
         const newCurrent = new currentGameModel(current);
         newCurrent.save();
 
+        io.to(data).emit('firstRound', 'hi')
 
-        //SEND BACK DATA FOR THE FIRST QUESTION
         
+
 
     })
 

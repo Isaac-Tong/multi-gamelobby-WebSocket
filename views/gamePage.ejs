@@ -138,6 +138,10 @@
                     socket.emit("Start_Game", clientObject.roomID);
                 });
 
+            socket.on('firstRound', (data) => {
+              console.log(data);
+              
+            })
             
         </script>
     </body>
