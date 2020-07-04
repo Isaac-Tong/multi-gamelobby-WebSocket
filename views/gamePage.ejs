@@ -69,7 +69,10 @@
         <h1>RoomID | <%= roomID%></h1>
         <hr />
         <div id="startPosition">
-          <!-- <div class="playerCard"><p class="playerText">Isaac</p></div> -->
+
+        </div>
+        <div id="startGame">
+          <button type="button" class="btn btn-success">Start Game</button>
         </div>
       </div>
     </div>
@@ -99,8 +102,6 @@
         //First clear current DIV
         const positionNode = document.getElementById('startPosition');
         positionNode.innerHTML = '';
-
-
 
         //Find how many users are connected
         const connectionNumber = data.connected.length;
