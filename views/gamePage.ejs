@@ -80,12 +80,10 @@
                     </button>
                 </div>
                 <br>
-                <p>Status:</p>
             </div>
         </div>
         <p class="invisible"><%=roomID%></p>
         <p class="invisible"><%=username%></p>
-
         <script>
 
             //Get client's roomID and username
@@ -137,27 +135,6 @@
                     socket.emit("Start_Game", clientObject.roomID);
                 });
 
-            socket.on("firstRound", (data) => {
-
-                
-                //Delete the innerHTML of form
-                const container = document.getElementById("container");
-                container.innerHTML = "";
-                container.innerHTML =
-                    "<h3>" +
-                    " " +
-                    data.part1 +
-                    " " +
-                    "Isaac" +
-                    " " +
-                    data.part2 +
-                    "</h3>" +
-                    "<hr />" +
-                    '<div class="form-group"><textarea class="form-control" id="input" rows="6"></textarea><br><button type="button" class="btn btn-primary" id="submit-btn">Submit</button></div>' + 
-                    'each player';
-                console.log(data);
-            });
-
             //Without jQuery
             document.body.addEventListener("click", function (event) {
                 if (event.srcElement.id == "submit-btn") {
@@ -173,25 +150,6 @@
                 }
             });
 
-            socket.on('submitComplete', (data) => {
-
-                //Show a list of players that still needs to submit their answers
-                console.log(data);
-
-                const container = document.getElementById("container");
-                container.innerHTML = "";
-
-                const connectionNumber = data.length;
-
-                const cards = document.createElement("div");
-                let cardString = "";
-
-                for (let i = 0; i < connectionNumber; i++) {
-                    cardString = cardString + createCard(data[i]);
-                }
-                container.innerHTML = cardString;
-    
-            })
         </script>
     </body>
 </html>

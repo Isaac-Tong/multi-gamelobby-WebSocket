@@ -22,12 +22,14 @@ const gameRouter = require('./routes/game')
 const nonExistRouter = require('./routes/non_existant_game')
 const allErrorRouter = require('./routes/allError');
 const addQuestionRouter = require('./routes/addQuestions')
+const questionPageRouter = require('./routes/questionPage')
 
 app.use('/', homepageRouter);
 app.use('/game', gameRouter);
 app.use('/error', nonExistRouter);
 app.use('/allError', allErrorRouter);
 app.use('/addQuestion', addQuestionRouter)
+app.use('/questionPage', questionPageRouter);
 
 
 
@@ -49,24 +51,23 @@ const io = socket(server);
 
 io.on('connection', (socket)=>{
     
-    
     //Check if connection has been established
     // console.log('Current socket connection:', socket.id)
 
     //Connect to a room
     socket.on('Join_Game', async (data) => {
-
+        
 
 
         //Check if roomID is stored in activeGame database
         const query = await activeGameModel.findOne({roomID: data.roomID});
+
         //Append username and socketID
         const socketUsername = data.username + '.' + socket.id;
         
         //Add user and socketID to the roomID document if there is already an active document
         if(query){
     
-            
             await activeGameModel.findOneAndUpdate({roomID: data.roomID}, { '$push' : {username: socketUsername}}, {useFindAndModify: false});
             
             const newSocket = new socketModel({
@@ -163,51 +164,7 @@ io.on('connection', (socket)=>{
 
     })
 
-    socket.on('Start_Game', async (data) => {
-        
-        //Mark roomLobbies collection startedGame to true
-        await activeGameModel.findOneAndUpdate({roomID: data}, {startedGame: true}); 
-
-        //Get array of usernames in the lobby from the database
-        const lobby = await activeGameModel.findOne({roomID: data}, 'username -_id');
-
-        //Create new currentGame collection
-        const current = {
-            roomID: data,
-            username: lobby.username.length,
-            rounds: 0,
-        }
-
-        const newCurrent = new currentGameModel(current);
-        newCurrent.save();
-
-        //Get index 0 or first question in the question collection
-        const firstQuestion = await questionModel.findOne({index: 0});
-
-        const questionParts = {
-            part1: firstQuestion.part1,
-            part2: firstQuestion.part2,
-            users: lobby.username,
-        }
-        
-        io.to(data).emit('firstRound', questionParts)
-    })
-    socket.on('submitAnswer', async (data)=> {
-
-        //Clear all the answers
-
-
-        await currentGameModel.update({roomID: data.roomID}, { $push: { answers: {username: data.username, answer: data.answer} } })
-        await currentGameModel.update({roomID: data.roomID}, { $push: {completed: data.username}})
-
-        const current = await currentGameModel.findOne({roomID: data.roomID});
-
-        io.to(socket.id).emit('submitComplete', current.completed);
     
-
-
-    })
-
 
 
 })
