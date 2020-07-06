@@ -14,7 +14,7 @@ Start express local server
 ```bash
 $ npm start
 ```
-Create an .env file
+Create an .env file and store in root directory
 ```
 DB_URL=[Your mongoDB address]
 ```
