@@ -14,6 +14,11 @@ Start express local server
 ```bash
 $ npm start
 ```
+Create an .env file
+```
+DB_URL=[Your mongoDB address]
+```
+
 Access lobby page on browser
 ```
 http://localhost:3000/
